@@ -7,13 +7,14 @@ editor: visual
 
 Este es el [repositorio](https://github.com/GSMir/Entrega2.git) de GitHub en el que se encuentran todos los archivos relacionados con esta entrega.
 
-```{r cargar-librerias}
+
+```{r, warning=FALSE}
 library(tidyverse)
 library(ggplot2)
 ```
 
 
-1)  Dibujad un gráfico que permita visualizar el número de vehículos de cada fabricante del conjunto de datos.
+### 1)  Dibujad un gráfico que permita visualizar el número de vehículos de cada fabricante del conjunto de datos.
 
 
 ```{r}
@@ -31,7 +32,7 @@ ggplot(data = mpg, aes(x = manufacturer)) +
 
 
 
-2)  Dibujad un gráfico para mostrar el rendimiento medio en ciudad para cada clase.
+### 2)  Dibujad un gráfico para mostrar el rendimiento medio en ciudad para cada clase.
 
 
 Crearemos un nuevo dataframe con el rendimiento medio en ciudad para cada clase de vehículo. Si pegamos un primer vistazo a la variable clase observamos que tenemos las siguientes clases de vehículos (según si son de  2 plazas, compactos, suv, camionetas u otros).
@@ -74,19 +75,35 @@ ggplot(data = mpg_class_avg, aes(x = reorder(class, -avg_city_mpg), y = avg_city
 ```
 
 
-3)  Construid un gráfico para mostrar el rendimiento medio en ciudad para cada clase y tipo de tracción simultáneamente.
+### 3)  Construid un gráfico para mostrar el rendimiento medio en ciudad para cada clase y tipo de tracción simultáneamente.
+
+```{r}
+# Calculamos el rendimiento medio en ciudad por clase de vehículo y tipo de tracción:
+
+mpg %>%
+  group_by(class, drv) %>% # Agrupamos teniendo en cuenta ambas características
+  summarise(avg_city_mpg = mean(cty)) %>%
+  
+  # Representamos los datos:
+  
+  ggplot(aes(x = class, y = avg_city_mpg, fill = drv)) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Rendimiento Promedio en Ciudad por Clase y Tipo de Tracción",
+    x = "Clase de Vehículo",
+    y = "Rendimiento Promedio en Ciudad"
+  ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+### 4)  Utilizad un gráfico para mostrar la relación entre el tamaño del motor y el rendimiento en carretera, para cada clase de vehículo. ¿Qué podéis observar?
 
 ```{r}
 
 ```
 
-4)  Utilizad un gráfico para mostrar la relación entre el tamaño del motor y el rendimiento en carretera, para cada clase de vehículo. ¿Qué podéis observar?
-
-```{r}
-
-```
-
-5)  Comparad la distribución del rendimiento en ciudad para distintos tipos de tracción
+### 5)  Comparad la distribución del rendimiento en ciudad para distintos tipos de tracción
 
 ```{r}
 
