@@ -113,7 +113,7 @@ ggplot(data = mpg, aes(x = displ, y = hwy, color = class)) +
   labs(
     title = "Relación entre Tamaño del Motor y Rendimiento en Carretera",
     x = "Tamaño del Motor (litros)",
-    y = "Rendimiento en Carretera (mpg)"
+    y = "Rendimiento en Carretera (millas/galón)"
   ) +
   theme_minimal()
 
@@ -124,21 +124,20 @@ Se observa que la nube de puntos sigue una dirección hacia la esquina inferior 
 ### 5)  Comparad la distribución del rendimiento en ciudad para distintos tipos de tracción
 
 ```{r}
-# Cargar la biblioteca tidyverse si aún no está cargada
-library(tidyverse)
+# Representamos la gráfica de la distribución de probabilidad del rendimiento en ciudad para cada tipo de tracción:
 
-# Crear el gráfico de densidad para comparar la distribución del rendimiento en ciudad
 ggplot(data = mpg, aes(x = cty, fill = drv)) +
   geom_density(alpha = 0.5) +
   labs(
-    title = "Distribución del Rendimiento en Ciudad por Tipo de Tracción",
-    x = "Rendimiento en Ciudad",
-    y = "Densidad"
+    title = "Rendimiento en Ciudad por Tipo de Tracción",
+    x = "Rendimiento en ciudad (millas/galón)",
+    y = "Probabilidad"
   ) +
   theme_minimal()
 
 ```
 
+Se observa que la distribución de probabilidad de los vehículos de tracción delantera (f) está centrada a la derecha de las otras dos. Como consecuencia de esto, los vehículos de tracción delantera tienen mayor probabilidad de tener un rendimiento superior en ciudad a los de tracción trasera y doble tracción.
 
 
 
