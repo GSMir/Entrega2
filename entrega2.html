@@ -225,6 +225,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="construid-un-gráfico-para-mostrar-el-rendimiento-medio-en-ciudad-para-cada-clase-y-tipo-de-tracción-simultáneamente." class="level3">
 <h3 class="anchored" data-anchor-id="construid-un-gráfico-para-mostrar-el-rendimiento-medio-en-ciudad-para-cada-clase-y-tipo-de-tracción-simultáneamente.">3) Construid un gráfico para mostrar el rendimiento medio en ciudad para cada clase y tipo de tracción simultáneamente.</h3>
+<p>En primer lugar agruparemos los vehículos según la clase y tipo de tracción, que puede ser delantera, trasera o cuatro ruedas. Una vez hecho esto se calcula el rendimiento medio de estos.</p>
+<p>Para representar los datos cruzados haremos un gráfico de barras apiladas, que es el que hemos visto en clase para representar el cruce de dos variables cualitativas.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculamos el rendimiento medio en ciudad por clase de vehículo y tipo de tracción:</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -253,6 +255,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="utilizad-un-gráfico-para-mostrar-la-relación-entre-el-tamaño-del-motor-y-el-rendimiento-en-carretera-para-cada-clase-de-vehículo.-qué-podéis-observar" class="level3">
 <h3 class="anchored" data-anchor-id="utilizad-un-gráfico-para-mostrar-la-relación-entre-el-tamaño-del-motor-y-el-rendimiento-en-carretera-para-cada-clase-de-vehículo.-qué-podéis-observar">4) Utilizad un gráfico para mostrar la relación entre el tamaño del motor y el rendimiento en carretera, para cada clase de vehículo. ¿Qué podéis observar?</h3>
+<p>En primer lugar es necesario comentar que el tamaño (capacidad) del motor lo proporciona la variable “displ” en litros (normalmente se suele dar en centímetros cúbicos pero en este caso nos viene dado en litros). Cruzamos este dato (cuantitativo) con el rendimiento en carretera (otro dato cuantitativo) en la figura siguiente:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear el gráfico de dispersión</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> mpg, <span class="fu">aes</span>(<span class="at">x =</span> displ, <span class="at">y =</span> hwy, <span class="at">color =</span> class)) <span class="sc">+</span></span>
@@ -267,6 +270,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="entrega2_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Se observa que la nube de puntos sigue una dirección hacia la esquina inferior de la gráfica. Esto significa que, por lo general, los vehículos del dataset cumplen que, a mayor tamaño de motor, menor es el rendimiento que proporcionan en carretera. Además, si nos fijamos en el tipo de vehículo que ocupa el lateral derecho de la gráfica podemos ver que la mayoría son suvs y pickups (camionetas). Ambos son vehículos de mayor peso y envergadura y tiene sentido que den un menor rendimiento (ya que suelen tener un consumo mayor).</p>
 </section>
 <section id="comparad-la-distribución-del-rendimiento-en-ciudad-para-distintos-tipos-de-tracción" class="level3">
 <h3 class="anchored" data-anchor-id="comparad-la-distribución-del-rendimiento-en-ciudad-para-distintos-tipos-de-tracción">5) Comparad la distribución del rendimiento en ciudad para distintos tipos de tracción</h3>

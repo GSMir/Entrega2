@@ -77,6 +77,10 @@ ggplot(data = mpg_class_avg, aes(x = reorder(class, -avg_city_mpg), y = avg_city
 
 ### 3)  Construid un gráfico para mostrar el rendimiento medio en ciudad para cada clase y tipo de tracción simultáneamente.
 
+En primer lugar agruparemos los vehículos según la clase y tipo de tracción, que puede ser delantera, trasera o cuatro ruedas. Una vez hecho esto se calcula el rendimiento medio de estos.
+
+Para representar los datos cruzados haremos un gráfico de barras apiladas, que es el que hemos visto en clase para representar el cruce de dos variables cualitativas.
+
 ```{r}
 # Calculamos el rendimiento medio en ciudad por clase de vehículo y tipo de tracción:
 
@@ -99,6 +103,9 @@ mpg %>%
 
 ### 4)  Utilizad un gráfico para mostrar la relación entre el tamaño del motor y el rendimiento en carretera, para cada clase de vehículo. ¿Qué podéis observar?
 
+En primer lugar es necesario comentar que el tamaño (capacidad) del motor lo proporciona la variable "displ" en litros (normalmente se suele dar en centímetros cúbicos pero en este caso nos viene dado en litros). Cruzamos este dato (cuantitativo) con el rendimiento en carretera (otro dato cuantitativo) en la figura siguiente:
+
+
 ```{r}
 # Crear el gráfico de dispersión
 ggplot(data = mpg, aes(x = displ, y = hwy, color = class)) +
@@ -111,6 +118,8 @@ ggplot(data = mpg, aes(x = displ, y = hwy, color = class)) +
   theme_minimal()
 
 ```
+
+Se observa que la nube de puntos sigue una dirección hacia la esquina inferior de la gráfica. Esto significa que, por lo general, los vehículos del dataset cumplen que, a mayor tamaño de motor, menor es el rendimiento que proporcionan en carretera. Además, si nos fijamos en el tipo de vehículo que ocupa el lateral derecho de la gráfica podemos ver que la mayoría son suvs y pickups (camionetas). Ambos son vehículos de mayor peso y envergadura y tiene sentido que den un menor rendimiento (ya que suelen tener un consumo mayor).
 
 ### 5)  Comparad la distribución del rendimiento en ciudad para distintos tipos de tracción
 
@@ -129,3 +138,9 @@ ggplot(data = mpg, aes(x = cty, fill = drv)) +
   theme_minimal()
 
 ```
+
+
+
+
+
+
