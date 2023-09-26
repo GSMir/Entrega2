@@ -5,45 +5,89 @@ format: html
 editor: visual
 ---
 
-Este es el repositorio de GitHub en el que se encuentran todos los archivos relacionados con esta entrega. (falta incluir el repositorio como enlace al igual que en la entrega anterior).
+Este es el [repositorio](https://github.com/GSMir/Entrega2.git) de GitHub en el que se encuentran todos los archivos relacionados con esta entrega.
+
+```{r cargar-librerias}
+library(tidyverse)
+library(ggplot2)
+```
 
 
-1) Dibujad un gráfico que permita visualizar el número de vehículos de cada fabricante del conjunto de datos.
+1)  Dibujad un gráfico que permita visualizar el número de vehículos de cada fabricante del conjunto de datos.
+
+
+```{r}
+# Crear el gráfico de barras:
+
+ggplot(data = mpg, aes(x = manufacturer)) +
+  geom_bar() +
+  labs(
+    title = "Coches por Fabricante",
+    x = "Fabricante",
+    y = "Cantidad de Coches"
+  ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+
+2)  Dibujad un gráfico para mostrar el rendimiento medio en ciudad para cada clase.
+
+
+Crearemos un nuevo dataframe con el rendimiento medio en ciudad para cada clase de vehículo. Si pegamos un primer vistazo a la variable clase observamos que tenemos las siguientes clases de vehículos (según si son de  2 plazas, compactos, suv, camionetas u otros).
+
+
+```{r}
+# Contamos la cantidad de valores distintos que toma la variable class.
+
+mpg %>%
+  count(class)
+```
+
+A continuación agruparemos las entradas del dataset inicial según la clase de vehículo y calcularemos el rendimiento medio por tipo de vehículo.
+
+
+```{r}
+
+mpg_class_avg <- mpg %>%
+  group_by(class) %>% # Agrupamos por clase y hacemos la media de éstos.
+  summarize(avg_city_mpg = mean(cty))
+
+mpg_class_avg
+```
+
+Finalmente hacemos la gráfica para ilustrar los datos obtenidos:
+
+
+```{r}
+# Gráfico de barras
+
+ggplot(data = mpg_class_avg, aes(x = reorder(class, -avg_city_mpg), y = avg_city_mpg)) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Rendimiento Promedio en Ciudad por Tipo de Vehículo",
+    x = "Tipo de Vehículo",
+    y = "Millas recorridas por galón de combustible"
+  ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+
+3)  Construid un gráfico para mostrar el rendimiento medio en ciudad para cada clase y tipo de tracción simultáneamente.
 
 ```{r}
 
 ```
 
-
-
-2) Dibujad un gráfico para mostrar el rendimiento medio en ciudad para cada clase.
-
+4)  Utilizad un gráfico para mostrar la relación entre el tamaño del motor y el rendimiento en carretera, para cada clase de vehículo. ¿Qué podéis observar?
 
 ```{r}
 
 ```
 
-
-3) Construid un gráfico para mostrar el rendimiento medio en ciudad para cada clase y tipo de tracción simultáneamente.
-
+5)  Comparad la distribución del rendimiento en ciudad para distintos tipos de tracción
 
 ```{r}
 
 ```
-
-
-4) Utilizad un gráfico para mostrar la relación entre el tamaño del motor y el rendimiento en carretera, para cada clase de vehículo. ¿Qué podéis observar?
-
-```{r}
-
-```
-
-
-
-5) Comparad la distribución del rendimiento en ciudad para distintos tipos de tracción
-
-
-```{r}
-
-```
-
