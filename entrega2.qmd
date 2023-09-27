@@ -7,36 +7,38 @@ editor: visual
 
 Este es el [repositorio](https://github.com/GSMir/Entrega2.git) de GitHub en el que se encuentran todos los archivos relacionados con esta entrega.
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
 
-```{r, warning=FALSE}
+```{r, message=FALSE}
+#install.packages("RColorBrewer")
+library(RColorBrewer)
 library(tidyverse)
 library(ggplot2)
 ```
 
-
-### 1)  Dibujad un gráfico que permita visualizar el número de vehículos de cada fabricante del conjunto de datos.
-
+### 1) Dibujad un gráfico que permita visualizar el número de vehículos de cada fabricante del conjunto de datos.
 
 ```{r}
 # Crear el gráfico de barras:
+paleta_azul <- colorRampPalette(c("lightblue", "darkblue"))(15)
 
+# Crea el gráfico ggplot y utiliza la paleta de colores azules
 ggplot(data = mpg, aes(x = manufacturer)) +
-  geom_bar() +
+  geom_bar(fill = paleta_azul) +
   labs(
     title = "Coches por Fabricante",
     x = "Fabricante",
     y = "Cantidad de Coches"
   ) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
 ```
 
+### 2) Dibujad un gráfico para mostrar el rendimiento medio en ciudad para cada clase.
 
-
-### 2)  Dibujad un gráfico para mostrar el rendimiento medio en ciudad para cada clase.
-
-
-Crearemos un nuevo dataframe con el rendimiento medio en ciudad para cada clase de vehículo. Si pegamos un primer vistazo a la variable clase observamos que tenemos las siguientes clases de vehículos (según si son de  2 plazas, compactos, suv, camionetas u otros).
-
+Crearemos un nuevo dataframe con el rendimiento medio en ciudad para cada clase de vehículo. Si pegamos un primer vistazo a la variable clase observamos que tenemos las siguientes clases de vehículos (según si son de 2 plazas, compactos, suv, camionetas u otros).
 
 ```{r}
 # Contamos la cantidad de valores distintos que toma la variable class.
@@ -46,7 +48,6 @@ mpg %>%
 ```
 
 A continuación agruparemos las entradas del dataset inicial según la clase de vehículo y calcularemos el rendimiento medio por tipo de vehículo.
-
 
 ```{r}
 
@@ -59,23 +60,28 @@ mpg_class_avg
 
 Finalmente hacemos la gráfica para ilustrar los datos obtenidos:
 
-
 ```{r}
 # Gráfico de barras
+gama_de_azules <- brewer.pal(n = 7, name = "Blues")
 
-ggplot(data = mpg_class_avg, aes(x = reorder(class, -avg_city_mpg), y = avg_city_mpg)) +
+ggplot(data = mpg_class_avg, aes(x = reorder(class, -avg_city_mpg), y = avg_city_mpg, fill = class)) +
   geom_bar(stat = "identity") +
   labs(
     title = "Rendimiento Promedio en Ciudad por Tipo de Vehículo",
     x = "Tipo de Vehículo",
     y = "Millas recorridas por galón de combustible"
   ) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_manual(values = gama_de_azules)
+
 
 ```
 
 
-### 3)  Construid un gráfico para mostrar el rendimiento medio en ciudad para cada clase y tipo de tracción simultáneamente.
+
+
+
+### 3) Construid un gráfico para mostrar el rendimiento medio en ciudad para cada clase y tipo de tracción simultáneamente.
 
 En primer lugar agruparemos los vehículos según la clase y tipo de tracción, que puede ser delantera, trasera o cuatro ruedas. Una vez hecho esto se calcula el rendimiento medio de estos.
 
@@ -97,14 +103,20 @@ mpg %>%
     x = "Clase de Vehículo",
     y = "Rendimiento Promedio en Ciudad"
   ) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+
+
+  # Personalizar la leyenda
+  scale_fill_manual(
+    values = c("4" = "deepskyblue", "f" = "darkorange", "r" = "chartreuse3"),  # Colores por tipo de tracción
+    labels = c("4" = "Tracción en las Cuatro Ruedas", "f" = "Tracción Delantera", "r" = "Tracción Trasera")  # Etiquetas personalizadas por tipo de tracción
+  )
 ```
 
-
-### 4)  Utilizad un gráfico para mostrar la relación entre el tamaño del motor y el rendimiento en carretera, para cada clase de vehículo. ¿Qué podéis observar?
+### 4) Utilizad un gráfico para mostrar la relación entre el tamaño del motor y el rendimiento en carretera, para cada clase de vehículo. ¿Qué podéis observar?
 
 En primer lugar es necesario comentar que el tamaño (capacidad) del motor lo proporciona la variable "displ" en litros (normalmente se suele dar en centímetros cúbicos pero en este caso nos viene dado en litros). Cruzamos este dato (cuantitativo) con el rendimiento en carretera (otro dato cuantitativo) en la figura siguiente:
-
 
 ```{r}
 # Crear el gráfico de dispersión
@@ -121,25 +133,26 @@ ggplot(data = mpg, aes(x = displ, y = hwy, color = class)) +
 
 Se observa que la nube de puntos sigue una dirección hacia la esquina inferior de la gráfica. Esto significa que, por lo general, los vehículos del dataset cumplen que, a mayor tamaño de motor, menor es el rendimiento que proporcionan en carretera. Además, si nos fijamos en el tipo de vehículo que ocupa el lateral derecho de la gráfica podemos ver que la mayoría son suvs y pickups (camionetas). Ambos son vehículos de mayor peso y envergadura y tiene sentido que den un menor rendimiento (ya que suelen tener un consumo mayor).
 
-### 5)  Comparad la distribución del rendimiento en ciudad para distintos tipos de tracción
+### 5) Comparad la distribución del rendimiento en ciudad para distintos tipos de tracción
 
 ```{r}
 # Representamos la gráfica de la distribución de probabilidad del rendimiento en ciudad para cada tipo de tracción:
 
-ggplot(data = mpg, aes(x = cty, fill = drv)) +
-  geom_density(alpha = 0.5) +
-  labs(
-    title = "Rendimiento en Ciudad por Tipo de Tracción",
-    x = "Rendimiento en ciudad (millas/galón)",
-    y = "Probabilidad"
-  ) +
-  theme_minimal()
+  ggplot(data = mpg, aes(x = cty, fill = drv)) +
+    geom_density(alpha = 0.5) +
+    labs(
+      title = "Rendimiento en Ciudad por Tipo de Tracción",
+      x = "Rendimiento en ciudad (millas/galón)",
+      y = "Probabilidad"
+    ) +
+    theme_minimal()+
+    # Personalizar la leyenda
+  scale_fill_manual(
+    values = c("4" = "blue", "f" = "red", "r" = "green"),  # Colores por tipo de tracción
+    labels = c("4" = "Tracción en las Cuatro Ruedas", "f" = "Tracción Delantera", "r" = "Tracción Trasera")  # Etiquetas personalizadas por tipo de tracción
+  )
+
 
 ```
 
 Se observa que la distribución de probabilidad de los vehículos de tracción delantera (f) está centrada a la derecha de las otras dos. Como consecuencia de esto, los vehículos de tracción delantera tienen mayor probabilidad de tener un rendimiento superior en ciudad a los de tracción trasera y doble tracción.
-
-
-
-
-
