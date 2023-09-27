@@ -61,23 +61,20 @@ mpg_class_avg
 Finalmente hacemos la gráfica para ilustrar los datos obtenidos:
 
 ```{r}
-# Gráfico de barras
-gama_de_azules <- brewer.pal(n = 7, name = "Blues")
 
-ggplot(data = mpg_class_avg, aes(x = reorder(class, -avg_city_mpg), y = avg_city_mpg, fill = class)) +
-  geom_bar(stat = "identity") +
+
+# Crear el gráfico de caja y bigotes con valor medio superpuesto
+
+ggplot(mpg, aes(x = class, y = cty)) +
+  geom_boxplot(fill = "blue", color = "blue", alpha = 0.5) +
+  geom_point(stat = "summary", fun = "mean", shape = 18, size = 3, color = "red") +  # Agregar medias
   labs(
-    title = "Rendimiento Promedio en Ciudad por Tipo de Vehículo",
-    x = "Tipo de Vehículo",
-    y = "Millas recorridas por galón de combustible"
+    title = "Rendimiento en Ciudad por Clase de Vehículo",
+    x = "Clase de Vehículo",
+    y = "Rendimiento en Ciudad"
   ) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  scale_fill_manual(values = gama_de_azules)
-
-
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
-
-
 
 
 
